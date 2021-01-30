@@ -1,5 +1,4 @@
 def likes(names):
-
     if len(names) == 0:
         return 'no one likes this'
     if len(names) == 1:
