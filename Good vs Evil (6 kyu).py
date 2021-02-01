@@ -1,8 +1,7 @@
 def goodVsEvil(good, evil):
     worths = [1, 2, 3, 3, 4, 10, 1, 2, 2, 2, 3, 5, 10]
     g_e = [int(j) for i in [good, evil] for j in i.split() if j.isdigit()]
-
-    result = [g_e[i]*worths[i] for i in list(range(0,13))]
+    result = [g_e[i]*worths[i] for i in list(range(13))]
 
     if sum(result[:6]) > sum(result[6:]):
         return "Battle Result: Good triumphs over Evil"
@@ -10,5 +9,3 @@ def goodVsEvil(good, evil):
         return "Battle Result: Evil eradicates all trace of Good"
     else:
         return "Battle Result: No victor on this battle field"
-
-print(goodVsEvil('1 1 1 1 1 1', '1 0 1 1 1 1 1'))
