@@ -1,36 +1,32 @@
-input = "(5-4-1)+9/5/2-7/1/7"
-output_n = "54-1-95/2/+71/7/-"
+def to_postfix(infix):
+    stack = []
+    postfix = ''
 
-priority = {'+':1, '-':1, '*':2, '/':2, '^':3, '(':0}
-stack = []
+    def preced(i):
+        if i == '+' or i == '-':
+            return 1
+        elif i == '*' or i == '/':
+            return 2
+        elif i == '^':
+            return 3
+        else:
+            return 0
 
-output = ''
-digits = [i for i in input if i.isdigit()]
-for i in input:
-    if i.isdigit():
-        output += i
-        if i == input[-1] and len(output) != 1:
-            for i in stack:
-                output += i
-        continue
-    if not stack:
-        stack.insert(0,i)
-    else:
-        if i == ')':
-            while '(' in stack:
-                if stack[0] != '(':
-                    output += stack[0]
-                del stack[0]
-            continue
-        if priority[i]==priority[stack[0]] and stack[0]!='^':
-            output += stack[0]
-            del stack[0]
-        elif i=='^' and stack[0]=='^':
+    for i in infix:
+        if i.isdigit():
+            postfix += i
+        elif i == '(':
             stack.insert(0,i)
-        if priority[i]>priority[stack[0]]:
+        elif i == '^':
             stack.insert(0,i)
-        if i == '(':
-            stack.insert(0,i)
-
-
-print(output, output_n)
+        elif i == ')':
+            while len(stack)!=0 and stack[0]!='(':
+                postfix += stack.pop(0)
+            stack.remove('(')
+        else:
+            while len(stack)!=0 and preced(i)<=preced(stack[0]):
+                postfix += stack.pop(0)
+            stack.insert(0, i)
+    while len(stack)!=0:
+        postfix += stack.pop(0)
+    return postfix
